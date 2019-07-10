@@ -77,7 +77,12 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String description = descriptionInput.getText().toString();
                 final ParseUser user = ParseUser.getCurrentUser();
-                savePost(description, user);
+                if (photoFile == null || ivImage.getDrawable() == null) {
+                    Log.e("HomeActivity", "No photo to submit");
+                    Toast.makeText(HomeActivity.this, "There is no photo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                savePost(description, user, photoFile);
                 //just hardcoding.. need to implement camera or way to upload photos
                 //final File file = new File(imagePath);
                // final ParseFile parseFile = new ParseFile(file);
@@ -154,11 +159,11 @@ public class HomeActivity extends AppCompatActivity {
         return file;
     }
 
-    private void savePost(String description, ParseUser parseUser) {
+    private void savePost(String description, ParseUser parseUser, File photoFile) {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(parseUser);
-      //  post.setImage();
+        post.setImage(new ParseFile(photoFile));
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
