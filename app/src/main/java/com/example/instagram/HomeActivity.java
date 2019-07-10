@@ -174,6 +174,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 Log.d("HomeActivity", "Saved successfully!!");
                 descriptionInput.setText("");
+                ivImage.setImageResource(0);
             }
         });
 
@@ -225,7 +226,7 @@ public class HomeActivity extends AppCompatActivity {
         final Intent intent = new Intent(HomeActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-        Log.d("Logout", "Sign up successful");
+        Log.d("Logout", "Sign out successful");
     }
 
 

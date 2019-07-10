@@ -34,47 +34,62 @@ public class MainActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSignUp);
 
+        if (ParseUser.getCurrentUser() != null) {
+            final Intent intent = new Intent(MainActivity.this, HomeActivity.class );
+            startActivity(intent);
+            //this is so that the user cannot just back up and see password and username
+            finish();
+        } else {
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String username = usernameInput.getText().toString();
-                final String password = passwordInput.getText().toString();
 
-                //pass these inputs into the login method
-                login(username, password);
-            }
-        });
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String username = usernameInput.getText().toString();
+                    final String password = passwordInput.getText().toString();
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String username = usernameInput.getText().toString();
-                final String password = passwordInput.getText().toString();
-                final String email = emailInput.getText().toString();
-                signUp(username, password, email);
-            }
-        });
+                    //pass these inputs into the login method
+                    login(username, password);
+                }
+            });
+
+            btnSignup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String username = usernameInput.getText().toString();
+                    final String password = passwordInput.getText().toString();
+                    final String email = emailInput.getText().toString();
+                    signUp(username, password, email);
+                }
+            });
+        }
 
     }
 
     private void login(String username, String password) {
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e == null) {
-                    Log.d("LoginActivity", "Login successful!");
-                    final Intent intent = new Intent(MainActivity.this, HomeActivity.class );
-                    startActivity(intent);
-                    //this is so that the user cannot just back up and see password and username
-                    finish();
+        if (ParseUser.getCurrentUser() != null) {
+            final Intent intent = new Intent(MainActivity.this, HomeActivity.class );
+            startActivity(intent);
+            //this is so that the user cannot just back up and see password and username
+            finish();
+        } else {
+            ParseUser.logInInBackground(username, password, new LogInCallback() {
+                @Override
+                public void done(ParseUser user, ParseException e) {
+                    if (e == null) {
+                        Log.d("LoginActivity", "Login successful!");
+                        final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        //this is so that the user cannot just back up and see password and username
+                        finish();
 
-                } else {
-                    Log.e("LoginActivity", "Login failure");
-                    e.printStackTrace();
+                    } else {
+                        Log.e("LoginActivity", "Login failure");
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void signUp(String username, String password, String email) {
