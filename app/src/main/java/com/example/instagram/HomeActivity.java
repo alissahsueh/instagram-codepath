@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
                         fragment = new ProfileFragment();
                         Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                         break;
+
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;

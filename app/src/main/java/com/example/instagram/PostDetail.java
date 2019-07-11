@@ -1,6 +1,8 @@
 package com.example.instagram;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,12 +18,15 @@ public class PostDetail extends AppCompatActivity {
     private TextView tvUsername;
     private TextView tvCaption;
     private TextView tvDate;
+    private BottomNavigationView bottomNavigationView;
     Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_detail);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 
