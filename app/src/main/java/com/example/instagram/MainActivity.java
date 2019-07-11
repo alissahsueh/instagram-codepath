@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignup;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignup = findViewById(R.id.btnSignUp);
 
         if (ParseUser.getCurrentUser() != null) {
-            final Intent intent = new Intent(MainActivity.this, HomeActivity.class );
+            final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
             //this is so that the user cannot just back up and see password and username
             finish();
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void login(String username, String password) {
         if (ParseUser.getCurrentUser() != null) {
-            final Intent intent = new Intent(MainActivity.this, HomeActivity.class );
+            final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
             //this is so that the user cannot just back up and see password and username
             finish();

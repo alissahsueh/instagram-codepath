@@ -35,6 +35,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 public class ComposeFragment extends Fragment {
+
     private EditText descriptionInput;
     private Button createButton;
     private Button btnPicture;
@@ -45,17 +46,11 @@ public class ComposeFragment extends Fragment {
     private Button refreshButton;
     private Button btnLogout;
 
-
-    // The onCreateView method is called when Fragment should create its View object hierarchy,
-    // either dynamically or via XML layout inflation.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_compose, container, false);
     }
-
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -66,28 +61,24 @@ public class ComposeFragment extends Fragment {
         ivImage = view.findViewById(R.id.ivPostImage);
         refreshButton = view.findViewById(R.id.refresh_btn);
         btnLogout = view.findViewById(R.id.btnLogOut);
-
         btnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchCamera();
             }
         });
-
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadTopPosts();
             }
         });
-
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logOut();
             }
         });
-
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -101,11 +92,6 @@ public class ComposeFragment extends Fragment {
                     return;
                 }
                 savePost(description, user, photoFile);
-                //just hardcoding.. need to implement camera or way to upload photos
-                //final File file = new File(imagePath);
-                // final ParseFile parseFile = new ParseFile(file);
-
-                //createPost(description, parseFile, user);
             }
         });
     }
@@ -117,8 +103,6 @@ public class ComposeFragment extends Fragment {
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
-        // required for API >= 24
-        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
         Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -137,10 +121,10 @@ public class ComposeFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivImage.setImageBitmap(takenImage);
-            } else { // Result was a failure
+            } else {
+                // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -149,18 +133,14 @@ public class ComposeFragment extends Fragment {
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "HomeActivity");
-
         // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d("HomeActivity", "failed to create directory");
         }
-
         // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return file;
     }
 
@@ -194,7 +174,8 @@ public class ComposeFragment extends Fragment {
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); ++i) {
-                        Log.d("HomeActivity", "Post[" + i + "] = " + objects.get(i).getDescription()
+                        Log.d("HomeActivity", "Post[" + i + "] = " +
+                                objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().getUsername());
                     }
                 } else {
@@ -205,37 +186,12 @@ public class ComposeFragment extends Fragment {
 
     }
 
-    private void createPost(String description, ParseFile imageFile, ParseUser user) {
-        final Post newPost = new Post();
-        newPost.setDescription(description);
-        newPost.setImage(imageFile);
-        newPost.setUser(user);
-
-        newPost.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("HomeActivity", "Create post success!");
-
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-    }
-
-
     private void logOut() {
         ParseUser.logOut();
-        //ParseUser currentUser = ParseUser.getCurrentUser();
         final Intent intent = new Intent(getContext(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();
         Log.d("Logout", "Sign out successful");
     }
-
-
-
 
 }

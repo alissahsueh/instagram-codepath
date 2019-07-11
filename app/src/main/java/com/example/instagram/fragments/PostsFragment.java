@@ -55,7 +55,7 @@ public class PostsFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
+                // Code to refresh the list
                 adapter.clear();
                 adapter.addAll(mPosts);
                 swipeContainer.setRefreshing(false);
@@ -88,7 +88,8 @@ public class PostsFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 for (int i = 0; i < posts.size(); i++) {
                     Post post = posts.get(i);
-                    Log.d("PostsFragment", "Posts: " + post.getDescription() + " , username: " + post.getUser().getUsername());
+                    Log.d("PostsFragment", "Posts: " + post.getDescription() +
+                            " , username: " + post.getUser().getUsername());
                 }
 
             }

@@ -30,9 +30,9 @@ public class ProfileFragment extends PostsFragment {
                 adapter.notifyDataSetChanged();
                 for (int i = 0; i < posts.size(); i++) {
                     Post post = posts.get(i);
-                    Log.d("PostsFragment", "Posts: " + post.getDescription() + " , username: " + post.getUser().getUsername());
+                    Log.d("PostsFragment", "Posts: " + post.getDescription()
+                            + " , username: " + post.getUser().getUsername());
                 }
-
             }
         });
     }

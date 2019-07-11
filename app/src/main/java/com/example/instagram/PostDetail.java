@@ -21,9 +21,7 @@ public class PostDetail extends AppCompatActivity {
     private TextView tvUsername;
     private TextView tvCaption;
     private TextView tvDate;
-    //like button
     private ImageView ivHeart;
-    //comment button
     private ImageView ivComment;
     private TextView tvLikes;
     private int likeCount;
@@ -41,12 +39,9 @@ public class PostDetail extends AppCompatActivity {
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCaption = (TextView) findViewById(R.id.tvCaption);
         tvDate = (TextView) findViewById(R.id.tvTimeStamp);
-        //like button
         ivHeart = (ImageView) findViewById(R.id.ivHeart);
-        //like count
         tvLikes = (TextView) findViewById(R.id.tvLikeCount);
         likeCount = 0;
-        //comment button
         ivComment = (ImageView) findViewById(R.id.ivComment);
         comment = (EditText) findViewById(R.id.etComment);
 
@@ -58,13 +53,13 @@ public class PostDetail extends AppCompatActivity {
             Glide.with(this).load(image.getUrl()).into(ivImage);
         }
 
-        //make like button clickable
-
+        //makes the like button clickable
         ivHeart.setOnClickListener(new View.OnClickListener() {
             boolean like = false;
+
             @Override
             public void onClick(View v) {
-                if(like == false) {
+                if (like == false) {
                     likeCount++;
                     tvLikes.setText(Integer.toString(likeCount));
                     ivHeart.setImageResource(R.drawable.ufi_heart_active);
@@ -102,11 +97,7 @@ public class PostDetail extends AppCompatActivity {
         });
 
 
-
     }
-
-
-
 
 
 }
