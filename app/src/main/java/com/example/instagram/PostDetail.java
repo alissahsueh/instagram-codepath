@@ -46,6 +46,4 @@ public class PostDetail extends AppCompatActivity {
     }
 
 
-
-
 }

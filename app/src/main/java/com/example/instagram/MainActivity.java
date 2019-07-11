@@ -40,19 +40,15 @@ public class MainActivity extends AppCompatActivity {
             //this is so that the user cannot just back up and see password and username
             finish();
         } else {
-
-
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final String username = usernameInput.getText().toString();
                     final String password = passwordInput.getText().toString();
-
                     //pass these inputs into the login method
                     login(username, password);
                 }
             });
-
             btnSignup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -62,10 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     signUp(username, password, email);
                 }
             });
-
-
         }
-
     }
 
     private void login(String username, String password) {
@@ -84,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         //this is so that the user cannot just back up and see password and username
                         finish();
-
                     } else {
                         Log.e("LoginActivity", "Login failure");
                         e.printStackTrace();
@@ -99,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -112,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                     //sign up didn't succeed
                     Log.e("SignUpActivity", "SignUp Failure");
                 }
-
             }
         });
 
