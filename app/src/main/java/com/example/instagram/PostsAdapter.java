@@ -20,6 +20,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     private Context context;
     private List<Post> posts;
 
+
     public PostsAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
@@ -57,7 +58,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
-            //TODO: bind the view elements to the post
             tvHandle.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
             if (image != null) {

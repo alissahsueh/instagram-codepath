@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     signUp(username, password, email);
                 }
             });
+
+
         }
 
     }
