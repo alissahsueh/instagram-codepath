@@ -1,18 +1,16 @@
 package com.example.instagram;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -22,31 +20,27 @@ public class PostDetail extends AppCompatActivity {
     private TextView tvUsername;
     private TextView tvCaption;
     private TextView tvDate;
+    Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_detail);
 
-        ivImage = findViewById(R.id.ivPost);
-        tvUsername = findViewById(R.id.tvUsername);
-        tvCaption = findViewById(R.id.tvCaption);
-        tvDate = findViewById(R.id.tvGTimeStamp);
+        post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 
-        Intent intent = getIntent();
-        Post post = (Post) intent.getExtras().get("PostDetails");
+        ivImage = (ImageView) findViewById(R.id.ivPost);
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+        tvCaption = (TextView) findViewById(R.id.tvCaption);
+        tvDate = (TextView) findViewById(R.id.tvGTimeStamp);
 
         tvUsername.setText(post.getUser().getUsername());
         tvCaption.setText(post.getDescription());
-        tvDate.setText(getRelativeTimeAgo(post.getCreatedAt().toString()));
-        ParseFile file = post.getImage();
-        file.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                ivImage.setImageBitmap(bitmap);
-            }
-        });
+        //String rawDate = for
+        ParseFile image = post.getImage();
+        if (image != null) {
+            Glide.with(this).load(image.getUrl()).into(ivImage);
+        }
 
     }
 
