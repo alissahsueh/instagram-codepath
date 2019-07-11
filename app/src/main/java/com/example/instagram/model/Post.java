@@ -1,5 +1,6 @@
 package com.example.instagram.model;
 
+import com.example.instagram.TimeUtils;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -37,6 +38,15 @@ public class Post extends ParseObject {
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
+
+    public String getTime() {
+        return TimeUtils.getRelativeTimeAgo(this.getCreatedAt().toString());
+    }
+
+    public void setTime(String time) {
+        put(KEY_CREATED_AT, time);
+    }
+
 
     public static class Query extends ParseQuery<Post> {
         public Query() {

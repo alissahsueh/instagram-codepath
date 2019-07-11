@@ -44,6 +44,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
        Post post =  posts.get(position);
        ParseFile image = post.getImage();
+        //holder.tvTime.setText(post.getTime());
        if (image != null) {
            Glide.with(context).load(posts.get(position).getImage().getUrl()).into(holder.imageIv);
            holder.bind(post);
@@ -60,9 +61,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView tvHandle;
-        public ImageView ivImage;
+        //public ImageView ivImage;
         public TextView tvDescription;
         public ImageView imageIv;
+        public TextView tvTime;
 
 
         public ViewHolder(View itemView) {
@@ -70,6 +72,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvHandle = (TextView) itemView.findViewById(R.id.tvHandle);
             imageIv = (ImageView) itemView.findViewById(R.id.ivPostImage);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
+            tvTime = (TextView) itemView.findViewById(R.id.tvTimeStamp);
             itemView.setOnClickListener(this);
         }
 
@@ -78,6 +81,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         public void bind(Post post) {
             tvDescription.setText(post.getDescription());
             tvHandle.setText(post.getUser().getUsername());
+            //tvTime.setText(post.getTime());
             ParseFile image = post.getImage();
             if (image != null) {
               //  Glide.with(context).load(image.getUrl()).into(imageIv);
