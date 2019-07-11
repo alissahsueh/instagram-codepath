@@ -13,6 +13,8 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_LIKES = "likes";
+    public static final String KEY_COMMENTS = "comments";
 
 
     public String getDescription() {
@@ -47,6 +49,21 @@ public class Post extends ParseObject {
         put(KEY_CREATED_AT, time);
     }
 
+    public int getLikes() {
+        return getInt(KEY_LIKES);
+    }
+
+    public void setLikes(int likes) {
+        put(KEY_LIKES, likes);
+    }
+
+    public String getComment() {
+        return getString("comments");
+    }
+
+    public void setComment(String comment) {
+        put(KEY_COMMENTS, comment);
+    }
 
     public static class Query extends ParseQuery<Post> {
         public Query() {

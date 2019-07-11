@@ -1,15 +1,18 @@
 package com.example.instagram;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -18,15 +21,19 @@ public class PostDetail extends AppCompatActivity {
     private TextView tvUsername;
     private TextView tvCaption;
     private TextView tvDate;
-    private BottomNavigationView bottomNavigationView;
+    //like button
+    private ImageView ivHeart;
+    //comment button
+    private ImageView ivComment;
+    private TextView tvLikes;
+    private int likeCount;
+    private EditText comment;
     Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_detail);
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 
@@ -34,6 +41,14 @@ public class PostDetail extends AppCompatActivity {
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCaption = (TextView) findViewById(R.id.tvCaption);
         tvDate = (TextView) findViewById(R.id.tvTimeStamp);
+        //like button
+        ivHeart = (ImageView) findViewById(R.id.ivHeart);
+        //like count
+        tvLikes = (TextView) findViewById(R.id.tvLikeCount);
+        likeCount = 0;
+        //comment button
+        ivComment = (ImageView) findViewById(R.id.ivComment);
+        comment = (EditText) findViewById(R.id.etComment);
 
         tvUsername.setText(post.getUser().getUsername());
         tvCaption.setText(post.getDescription());
@@ -43,7 +58,55 @@ public class PostDetail extends AppCompatActivity {
             Glide.with(this).load(image.getUrl()).into(ivImage);
         }
 
+        //make like button clickable
+
+        ivHeart.setOnClickListener(new View.OnClickListener() {
+            boolean like = false;
+            @Override
+            public void onClick(View v) {
+                if(like == false) {
+                    likeCount++;
+                    tvLikes.setText(Integer.toString(likeCount));
+                    ivHeart.setImageResource(R.drawable.ufi_heart_active);
+                    post.setLikes(likeCount);
+                    like = true;
+                } else {
+                    likeCount--;
+                    tvLikes.setText(Integer.toString(likeCount));
+                    ivHeart.setImageResource(R.drawable.ufi_heart);
+                    post.setLikes(likeCount);
+                    like = false;
+                }
+
+                post.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.e("PostDetail", "likes are saved!");
+                    }
+                });
+            }
+        });
+
+        comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                post.setComment(comment.getText().toString());
+
+                post.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.e("PostDetail", "comment is saved!");
+                    }
+                });
+            }
+        });
+
+
+
     }
+
+
+
 
 
 }
